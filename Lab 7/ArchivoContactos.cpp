@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QDir>
 #include <QByteArray>
+#include <QStringList>
 
 QString ArchivoContactos::ruta() const
 
@@ -9,6 +10,28 @@ QString ArchivoContactos::ruta() const
 	
 	return QDir::homePath() + "/Lab7Datos/contactos.txt";
 
+}
+
+QStringList ArchivoContactos::leer() const
+{
+	QStringList contactos;
+	QFile archivo(ruta());
+
+	if (!archivo.open(QIODevice::ReadOnly))
+		return contactos;
+
+	QByteArray datos = archivo.readAll();
+	archivo.close();
+
+	QString contenido = QString::fromUtf8(datos);
+	QStringList lineas = contenido.split('\n');
+
+	for (const QString& linea : lineas) {
+		if (!linea.trimmed().isEmpty())
+			contactos.append(linea.trimmed());
+	}
+
+	return contactos;
 }
 
 	bool ArchivoContactos::guardar(const QString& nombre, const QString& telefono, const QString& correo) const

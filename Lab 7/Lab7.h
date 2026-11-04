@@ -18,5 +18,6 @@ private:
 	void guardarContacto();
     void mostrarRegistrar();
     void mostrarHistorial();
+    void configurarTabla();
 };
 
