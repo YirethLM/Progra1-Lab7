@@ -82,12 +82,13 @@ void Lab7::mostrarRegistrar()
 
 void Lab7::editarContacto()
 {
-    int fila = ui.tablaContactos->currentRow();
-    if (fila < 0)
+    QModelIndexList seleccion = ui.tablaContactos->selectionModel()->selectedRows();
+    if (seleccion.isEmpty())
     {
         QMessageBox::warning(this, "Editar contacto", "Seleccione un contacto de la tabla.");
         return;
     }
+    int fila = seleccion.at(0).row();
 
     editando = true;
     filaEditar = fila;
@@ -103,12 +104,13 @@ void Lab7::editarContacto()
 
 void Lab7::eliminarContacto()
 {
-    int fila = ui.tablaContactos->currentRow();
-    if (fila < 0)
+    QModelIndexList seleccion = ui.tablaContactos->selectionModel()->selectedRows();
+    if (seleccion.isEmpty())
     {
         QMessageBox::warning(this, "Eliminar contacto", "Seleccione un contacto de la tabla.");
         return;
     }
+    int fila = seleccion.at(0).row();
 
     QString contacto = ui.tablaContactos->item(fila, 0)->text();
     contacto += ";" + ui.tablaContactos->item(fila, 1)->text();
