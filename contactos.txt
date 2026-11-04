@@ -1,0 +1,4 @@
+Edrei;6136-4331;edrei@example.com
+MORALES;0000-0002;MORALES@example.com
+Dara Leon;0000-0000;dara@example.com
+Prueba Cuatro;0000-0004;prueba4@example.com
