@@ -15,9 +15,14 @@ public:
 private:
     Ui::Lab7Class ui;
     ArchivoContactos archivoContactos;
+    bool editando = false;
+    int filaEditar = -1;
+    QString contactoEditar;
 	void guardarContacto();
     void mostrarRegistrar();
     void mostrarHistorial();
     void configurarTabla();
+    void editarContacto();
+    void eliminarContacto();
 };
 

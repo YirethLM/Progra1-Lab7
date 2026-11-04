@@ -17,6 +17,8 @@ Lab7::Lab7(QWidget* parent)
     connect(ui.btnGuardar, &QPushButton::clicked, this, &Lab7::guardarContacto);
     connect(ui.actionRegistrar, &QAction::triggered, this, &Lab7::mostrarRegistrar);
     connect(ui.actionHistorial, &QAction::triggered, this, &Lab7::mostrarHistorial);
+    connect(ui.actionEditar, &QAction::triggered, this, &Lab7::editarContacto);
+    connect(ui.actionEliminar, &QAction::triggered, this, &Lab7::eliminarContacto);
 }
 
 Lab7::~Lab7()
@@ -41,7 +43,27 @@ void Lab7::guardarContacto()
         }
     }
 
-    if (!archivoContactos.guardar(nombre, telefono, correo)) {
+    if (editando) {
+        QStringList contactos = archivoContactos.leer();
+        int posicion = contactos.indexOf(contactoEditar);
+
+        if (posicion < 0) {
+            QMessageBox::warning(this, "Editar contacto", "No se encontró el contacto seleccionado.");
+            editando = false;
+            filaEditar = -1;
+            return;
+        }
+
+        contactos[posicion] = nombre + ";" + telefono + ";" + correo;
+        if (!archivoContactos.guardarTodos(contactos)) {
+            QMessageBox::critical(this, "No se pudo editar", "No se pudo actualizar el archivo.");
+            return;
+        }
+
+        editando = false;
+        filaEditar = -1;
+    }
+    else if (!archivoContactos.guardar(nombre, telefono, correo)) {
         QMessageBox::critical(this, "No se pudo guardar", "Revisa permisos y espacios disponibles.\nArchivo: " + archivoContactos.ruta());
         return;
     }
@@ -56,6 +78,67 @@ void Lab7::guardarContacto()
 void Lab7::mostrarRegistrar()
 {
     ui.stackedWidget->setCurrentWidget(ui.pageRegistrar);
+}
+
+void Lab7::editarContacto()
+{
+    int fila = ui.tablaContactos->currentRow();
+    if (fila < 0)
+    {
+        QMessageBox::warning(this, "Editar contacto", "Seleccione un contacto de la tabla.");
+        return;
+    }
+
+    editando = true;
+    filaEditar = fila;
+    contactoEditar = ui.tablaContactos->item(fila, 0)->text();
+    contactoEditar += ";" + ui.tablaContactos->item(fila, 1)->text();
+    contactoEditar += ";" + ui.tablaContactos->item(fila, 2)->text();
+    QStringList partes = contactoEditar.split(';');
+    ui.txtNombre->setText(partes.at(0));
+    ui.txtTelefono->setText(partes.at(1));
+    ui.txtCorreo->setText(partes.at(2));
+    ui.stackedWidget->setCurrentWidget(ui.pageRegistrar);
+}
+
+void Lab7::eliminarContacto()
+{
+    int fila = ui.tablaContactos->currentRow();
+    if (fila < 0)
+    {
+        QMessageBox::warning(this, "Eliminar contacto", "Seleccione un contacto de la tabla.");
+        return;
+    }
+
+    QString contacto = ui.tablaContactos->item(fila, 0)->text();
+    contacto += ";" + ui.tablaContactos->item(fila, 1)->text();
+    contacto += ";" + ui.tablaContactos->item(fila, 2)->text();
+
+    QMessageBox::StandardButton respuesta = QMessageBox::question(
+        this,
+        "Eliminar contacto",
+        "¿Desea eliminar el contacto seleccionado?");
+
+    if (respuesta != QMessageBox::Yes)
+        return;
+
+    QStringList contactos = archivoContactos.leer();
+    int posicion = contactos.indexOf(contacto);
+    if (posicion < 0)
+    {
+        QMessageBox::warning(this, "Eliminar contacto", "No se encontró el contacto seleccionado.");
+        return;
+    }
+
+    contactos.removeAt(posicion);
+    if (!archivoContactos.guardarTodos(contactos))
+    {
+        QMessageBox::critical(this, "No se pudo eliminar", "No se pudo actualizar el archivo.");
+        return;
+    }
+
+    QMessageBox::information(this, "Contacto eliminado", "El contacto se eliminó correctamente.");
+    mostrarHistorial();
 }
 
 void Lab7::configurarTabla()

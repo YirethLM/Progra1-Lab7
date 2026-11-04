@@ -34,6 +34,27 @@ QStringList ArchivoContactos::leer() const
 	return contactos;
 }
 
+bool ArchivoContactos::guardarTodos(const QStringList& contactos) const
+{
+	QString carpeta = QDir::homePath() + "/Lab7Datos";
+	if (!QDir().mkpath(carpeta))
+		return false;
+
+	QFile archivo(ruta());
+	if (!archivo.open(QIODevice::WriteOnly | QIODevice::Truncate))
+		return false;
+
+	QString contenido;
+	for (const QString& contacto : contactos)
+		contenido += contacto + "\n";
+
+	QByteArray datos = contenido.toUtf8();
+	bool completo = archivo.write(datos) == datos.size();
+	bool vaciado = archivo.flush();
+	archivo.close();
+	return completo && vaciado;
+}
+
 	bool ArchivoContactos::guardar(const QString& nombre, const QString& telefono, const QString& correo) const
 
 	{ 
