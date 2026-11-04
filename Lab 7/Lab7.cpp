@@ -4,16 +4,18 @@
 #include <QMessageBox>
 #include <QStringList>
 
-Lab7::Lab7(QWidget *parent)
+Lab7::Lab7(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
     connect(ui.btnGuardar, &QPushButton::clicked, this, &Lab7::guardarContacto);
-
+    connect(ui.actionRegistrar, &QAction::triggered, this, &Lab7::mostrarRegistrar);
+    connect(ui.actionHistorial, &QAction::triggered, this, &Lab7::mostrarHistorial);
 }
 
 Lab7::~Lab7()
-{}
+{
+}
 
 void Lab7::guardarContacto()
 {
@@ -34,7 +36,7 @@ void Lab7::guardarContacto()
     }
 
     if (!archivoContactos.guardar(nombre, telefono, correo)) {
-        QMessageBox::critical(this, "No se pudo guardar", "Revisa permisos y espacio disponible.\nArchivo: " + archivoContactos.ruta());
+        QMessageBox::critical(this, "No se pudo guardar", "Revisa permisos y espacios disponibles.\nArchivo: " + archivoContactos.ruta());
         return;
     }
 
@@ -43,4 +45,14 @@ void Lab7::guardarContacto()
     ui.txtCorreo->clear();
     QMessageBox::information(this, "Guardado completo", "El contacto se guardó correctamente.\nArchivo: " + archivoContactos.ruta());
     ui.txtNombre->setFocus();
+}
+
+void Lab7::mostrarRegistrar()
+{
+    ui.stackedWidget->setCurrentWidget(ui.pageRegistrar);
+}
+
+void Lab7::mostrarHistorial()
+{
+    ui.stackedWidget->setCurrentWidget(ui.pageHistorial);
 }

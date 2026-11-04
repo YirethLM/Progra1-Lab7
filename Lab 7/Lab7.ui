@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>666</width>
-    <height>400</height>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,40 +16,52 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="lblNombre">
-      <property name="text">
-       <string>Nombre</string>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="txtNombre"/>
-    </item>
-    <item>
-     <widget class="QLabel" name="lblTelefono">
-      <property name="text">
-       <string>Teléfono</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="txtTelefono"/>
-    </item>
-    <item>
-     <widget class="QLabel" name="lblCorreo">
-      <property name="text">
-       <string>Correo</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="txtCorreo"/>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btnGuardar">
-      <property name="text">
-       <string>Guardar</string>
-      </property>
+      <widget class="QWidget" name="pageRegistrar">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblNombre">
+          <property name="text">
+           <string>Nombre</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtNombre"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblTelefono">
+          <property name="text">
+           <string>Teléfono</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtTelefono"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblCorreo">
+          <property name="text">
+           <string>Correo</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtCorreo"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnGuardar">
+          <property name="text">
+           <string>Guardar</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageHistorial"/>
      </widget>
     </item>
    </layout>
@@ -63,6 +75,20 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuNavegaci_n">
+    <property name="title">
+     <string>Navegación</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionRegistrar"/>
+    <addaction name="separator"/>
+    <addaction name="actionHistorial"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditar"/>
+    <addaction name="separator"/>
+    <addaction name="actionEliminar"/>
+   </widget>
+   <addaction name="menuNavegaci_n"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -73,6 +99,26 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionRegistrar">
+   <property name="text">
+    <string>Registrar</string>
+   </property>
+  </action>
+  <action name="actionHistorial">
+   <property name="text">
+    <string>Historial</string>
+   </property>
+  </action>
+  <action name="actionEditar">
+   <property name="text">
+    <string>Editar</string>
+   </property>
+  </action>
+  <action name="actionEliminar">
+   <property name="text">
+    <string>Eliminar</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

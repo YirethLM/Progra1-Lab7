@@ -16,6 +16,7 @@ private:
     Ui::Lab7Class ui;
     ArchivoContactos archivoContactos;
 	void guardarContacto();
-
+    void mostrarRegistrar();
+    void mostrarHistorial();
 };
 
